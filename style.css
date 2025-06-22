@@ -84,6 +84,7 @@ nav{
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
     /* border-bottom: 1px solid #bf9292; */
 }
 
@@ -188,4 +189,39 @@ nav>a{
 
 .rewards img {
     height: 60px;
+}
+
+
+/* Responsive design code  */
+
+@media (max-width:600px) {
+    .login {
+        display: none;
+    }
+
+    #hero {
+        padding-top: 30px;
+    }
+
+    .hero-content{
+        padding: 0 8px;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+        line-height: 40px;
+    }
+
+    .hero-content p{
+        font-size: 0.8rem;
+    }
+    
+    .start-btn {
+        margin-top: 30px;
+    }
+
+    .start-btn a{
+        padding: 8px 20px;
+        font-size: 1rem;
+    }
 }

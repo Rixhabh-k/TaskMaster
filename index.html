@@ -34,7 +34,7 @@
         <a href=""><h1>TaskMaster</h1></a>
         <div class="navlinks">
             <a href="" class="login">Log in</a>
-            <a href="" class="start">Start For Free</a>
+            <a href="task.html" class="start">Start For Free</a>
         </div>
     </nav>
 
@@ -44,7 +44,7 @@
             <p>Easily manage your personal tasks, family projects, and <br>
             team’s work all in one place.</p>
             <div class="start-btn">
-                <a href="">Get Started <i class="fa-solid fa-arrow-right"></i> </a>
+                <a href="task.html">Get Started <i class="fa-solid fa-arrow-right"></i> </a>
                 <p>Free Forever</p>
             </div>
 
@@ -58,5 +58,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" integrity="sha512-NcZdtrT77bJr4STcmsGAESr06BYGE8woZdSdEgqnpyqac7sugNO+Tr4bGwGF3MsnEkGKhU2KL2xh6Ec+BqsaHA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="gsap.js"></script>
     <script src="script.js"></script>
+    <script>
+        var chatOpenBtn = document.querySelector(".chatbot");
+var chatCloseBtn = document.querySelector(".fa-xmark");
+var chatBox = document.querySelector(".chat-box");
+var opener = 0;
+
+chatOpenBtn.addEventListener("click", function () {
+  if (opener == 0) {
+    chatBox.style.opacity = "100";
+    opener = 1;
+  } else {
+    chatBox.style.opacity = "0";
+    opener = 0;
+  }
+});
+
+chatCloseBtn.addEventListener("click", function () {
+  chatBox.style.opacity = "0";
+});
+    </script>
 </body>
 </html>

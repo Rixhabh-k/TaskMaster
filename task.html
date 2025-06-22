@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskMater | Task</title>
+    <link rel="stylesheet" href="task.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+       <nav>
+        <a href=""><h1>TaskMaster</h1></a>
+        <div class="navlinks">
+            <a href="index.html">Home</a>
+            <a href="#" class="active">Task</a>
+            <a href="notes.html">Notes</a>
+        </div>
+    </nav>
+
+     <!-- Tab Bar -->
+  <div class="main-container">
+  <div class="tab-bar">
+    <button class="tab active" onclick="switchTab(this)">Today</button>
+    <button class="tab" onclick="switchTab(this)">Tomorrow</button>
+    <button class="tab" onclick="switchTab(this)">Important</button>
+    <button class="tab" onclick="switchTab(this)">Priority</button>
+  </div>
+</div>
+
+
+  <!-- Input Section -->
+  <div class="input-section">
+    <input type="text" id="taskInput" placeholder="Enter your task">
+    <div class="btns">
+      <button onclick="addTask()">Add Task</button>
+      <button onclick="openModal()">Add Task For</button> <!-- Future use -->
+    </div>
+  </div>
+
+  <!-- Task Stats -->
+<div class="task-stats" id="taskStats">
+  <div>Total: <span id="totalCount">0</span></div>
+  <div>Completed: <span id="completedCount">0</span></div>
+  <div>Pending: <span id="pendingCount">0</span></div>
+</div>
+
+  <!-- Task List -->
+  <div class="task-list" id="taskList"></div>
+
+  <!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <h3>Add Task For</h3>
+    <input type="text" id="modalTaskInput" placeholder="Enter your task">
+    <select id="taskCategory">
+      <option value="Tomorrow">Tomorrow</option>
+      <option value="Important">Important</option>
+      <option value="Priority">Priority</option>
+    </select>
+    <div class="modal-buttons">
+      <button onclick="saveModalTask()">Save</button>
+      <button onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal-overlay" id="editModalOverlay">
+  <div class="modal-box">
+    <h3>Edit Task</h3>
+    <input type="text" id="editTaskInput" placeholder="Update your task">
+    <div class="modal-buttons">
+      <button onclick="updateTask()">Update</button>
+      <button onclick="closeEditModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Undo Toast Notification -->
+<div class="toast" id="undoToast">
+  Task deleted <button onclick="undoDelete()">Undo</button>
+</div>
+
+
+
+<!-- <canvas id="taskChart" width="5" height="5"></canvas> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="script.js"></script>
+</body>
+</html>

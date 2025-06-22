@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="notes.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+    <nav>
+        <a href=""><h1>TaskMaster</h1></a>
+        <div class="navlinks">
+            <a href="index.html">Home</a>
+            <a href="#" class="active">Task</a>
+            <a href="notes.html">Notes</a>
+            <a href="trial.html">Calender</a>
+        </div>
+    </nav>
+     <!-- notes section  -->
+
+   <!-- notes section  -->
+
+   <section class="note-controls">
+  <h1>Add Notes</h1>
+  <input
+  type="text"
+  id="noteSearchInput"
+  placeholder="Search notes..."
+  class="search-input"
+/>
+  <div class="note-buttons">
+    <button class="circle-btn" id="addNoteBtn" title="Add Note">
+      <i class="fas fa-plus"></i>
+    </button>
+    <!-- <button class="circle-btn" id="audioNoteBtn" title="Add Audio Note">
+      <i class="fas fa-microphone"></i>
+    </button> -->
+  </div>
+</section>
+
+  <!-- Notes container  -->
+   <section class="notes-grid">
+      
+
+  
+
+  <!-- More note cards will wrap to the next line -->
+</section>
+
+<!-- Pop up modals  -->
+
+<!-- Add Note Modal -->
+<div class="modal" id="addNoteModal">
+  <div class="add-modal-content">
+    <h2 style="color: #DE483A;">Add Note</h2>
+    <input type="text" id="noteTitleInput" placeholder="Enter note title" />
+    <textarea id="noteContentInput" placeholder="Write your note..."></textarea>
+    <div class="add-modal-buttons">
+      <button id="saveNoteBtn">Save</button>
+      <button id="cancelNoteBtn">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Note Modal -->
+<div class="modal" id="editNoteModal">
+  <div class="edit-modal-content">
+    <h3>Edit Note</h3>
+    <input type="text" id="editNoteTitleInput" placeholder="Edit title" />
+    <textarea id="editNoteContentInput" placeholder="Edit content"></textarea>
+    <div class="edit-modal-actions">
+      <button id="updateNoteBtn">Update</button>
+      <button id="cancelEditNoteBtn">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- View Note Modal -->
+<div id="viewNoteModal" class="modal view-modal">
+  <div class="modal-content">
+    <h2 id="viewNoteTitle">Note Title</h2>
+    <p id="viewNoteContent">Note Content</p>
+    <span id="viewNoteTimestamp"></span>
+    <div class="modal-buttons">
+      <button id="closeViewNoteBtn">Close</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<!-- undo  -->
+<div id="undoToast" class="undo-toast">
+  <span>Note deleted</span>
+  <button id="undoDeleteBtn">Undo</button>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
