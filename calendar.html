@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Notes Calendar</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #DE483A;
+    }
+
+    .calendar-container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .calendar-header h2 {
+      margin: 10px 0;
+      color: #333;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .day {
+      padding: 10px;
+      border-radius: 6px;
+      background: #eee;
+      cursor: pointer;
+      position: relative;
+      transition: 0.2s ease;
+    }
+
+    .day.note {
+      background-color: #DE483A;
+      color: white;
+      font-weight: bold;
+    }
+
+    .day:hover {
+      opacity: 0.9;
+    }
+
+    button {
+      background-color: #DE483A;
+      color: white;
+      border: none;
+      padding: 5px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    button:hover {
+      opacity: 0.85;
+    }
+
+    .modal {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+#notesList {
+  list-style: disc;
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+#notesList li {
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+a{
+    position: absolute;
+    top: 75%;
+    text-decoration: none;
+    color: #DE483A;
+    font-weight: 700;
+    /* display: flex; */
+    /* gap: 10px; */
+}
+
+a i {
+    color: #DE483A;
+    font-size: 1.2rem;
+    background: #ffe8e8;
+    padding: 10px 10px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+  </style>
+</head>
+<body>
+
+    <a href="notes.html"><i class="fa-solid fa-right-from-bracket"></i>Go Back</a>
+
+  <h1>Notes Calendar</h1>
+
+  <div class="calendar-container">
+    <div class="calendar-header">
+      <button id="prevMonth"><i class="fa-solid fa-arrow-left"></i></button>
+      <h2 id="monthYear"></h2>
+      <button id="nextMonth"><i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+    <div class="calendar-grid" id="calendarDays"></div>
+  </div>
+
+  <!-- Notes Modal -->
+<div id="notesModal" class="modal">
+  <div class="modal-content">
+    <h2 id="modalDateHeading"></h2>
+    <ul id="notesList"></ul>
+    <button onclick="closeNotesModal()">Close</button>
+  </div>
+</div>
+
+
+
+  <script>
+const monthYearEl = document.getElementById("monthYear");
+const calendarDaysEl = document.getElementById("calendarDays");
+const prevMonthBtn = document.getElementById("prevMonth");
+const nextMonthBtn = document.getElementById("nextMonth");
+
+const modal = document.getElementById("notesModal");
+const modalDateHeading = document.getElementById("modalDateHeading");
+const notesList = document.getElementById("notesList");
+
+let currentDate = new Date();
+
+function getNotesFromStorage() {
+  return JSON.parse(localStorage.getItem('notes')) || [];
+}
+
+function renderCalendar(date) {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const firstDay = new Date(year, month, 1).getDay();
+  const totalDays = new Date(year, month + 1, 0).getDate();
+
+  monthYearEl.textContent = `${date.toLocaleString('default', { month: 'long' })} ${year}`;
+  calendarDaysEl.innerHTML = "";
+
+  const notes = getNotesFromStorage();
+  const noteDates = notes.map(note => new Date(note.timestamp).toISOString().split("T")[0]);
+
+  for (let i = 0; i < firstDay; i++) {
+    const empty = document.createElement("div");
+    calendarDaysEl.appendChild(empty);
+  }
+
+  for (let day = 1; day <= totalDays; day++) {
+    const dayBox = document.createElement("div");
+    const isoDate = new Date(year, month, day).toISOString().split("T")[0];
+    dayBox.className = "day";
+    dayBox.textContent = day;
+
+    if (noteDates.includes(isoDate)) {
+      dayBox.classList.add("note");
+    }
+
+    dayBox.addEventListener("click", () => {
+      const notesOnDay = notes.filter(n =>
+        new Date(n.timestamp).toISOString().startsWith(isoDate)
+      );
+      if (notesOnDay.length) {
+        modalDateHeading.textContent = `Notes on ${isoDate}`;
+        notesList.innerHTML = "";
+        notesOnDay.forEach(n => {
+          const li = document.createElement("li");
+          li.textContent = n.title;
+          notesList.appendChild(li);
+        });
+        modal.style.display = "flex";
+      } else {
+        modalDateHeading.textContent = `No notes on ${isoDate}`;
+        notesList.innerHTML = "";
+        modal.style.display = "flex";
+      }
+    });
+
+    calendarDaysEl.appendChild(dayBox);
+  }
+}
+
+prevMonthBtn.addEventListener("click", () => {
+  currentDate.setMonth(currentDate.getMonth() - 1);
+  renderCalendar(currentDate);
+});
+
+nextMonthBtn.addEventListener("click", () => {
+  currentDate.setMonth(currentDate.getMonth() + 1);
+  renderCalendar(currentDate);
+});
+
+function closeNotesModal() {
+  modal.style.display = "none";
+}
+
+document.addEventListener("DOMContentLoaded", () => renderCalendar(currentDate));
+
+  </script>
+
+</body>
+</html>
